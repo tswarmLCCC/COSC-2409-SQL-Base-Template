@@ -1,31 +1,11 @@
 {
-  "name": "SQL Lab Environment",
+  "name": "Postgres Dev",
   "dockerComposeFile": "docker-compose.yml",
-  "service": "workspace",
-  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "mtxr.sqltools",
-        "mtxr.sqltools-driver-pg"
-      ],
-      "settings": {
-        "sqltools.connections": [
-          {
-            "name": "Classroom DB",
-            "driver": "PostgreSQL",
-            "server": "localhost",
-            "port": 5432,
-            "database": "classroom",
-            "username": "postgres",
-            "askForPassword": false,
-            "password": "password123"
-          }
-        ]
-      }
-    }
-  },
+  "service": "app",
+  "workspaceFolder": "/workspace",
   "forwardPorts": [5432],
-  "onCreateCommand": "sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client",
-  "postCreateCommand": "until PGPASSWORD=password123 psql -h localhost -U postgres -d classroom -c '\\q' 2>/dev/null; do sleep 1; done && PGPASSWORD=password123 psql -h localhost -U postgres -d classroom -f /workspaces/${localWorkspaceFolderBasename}/setup.sql && for seed in $(find /workspaces -name 'seed.sql' | sort); do PGPASSWORD=password123 psql -h localhost -U postgres -d classroom -f \"$seed\"; done"
+  "postStartCommand": "pg_isready -h db -U postgres || sleep 5",
+  "remoteEnv": {
+    "DATABASE_URL": "postgresql://postgres:postgres@db:5432/mydb"
+  }
 }
