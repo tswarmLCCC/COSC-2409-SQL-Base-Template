@@ -1,6 +1,6 @@
 services:
   app:
-    image: mcr.microsoft.com/devcontainers/python:3.12  # or node, universal, etc.
+    image: mcr.microsoft.com/devcontainers/universal:2
     volumes:
       - ..:/workspace:cached
     command: sleep infinity
@@ -13,7 +13,7 @@ services:
       POSTGRES_DB: mydb
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      - ../sql:/docker-entrypoint-initdb.d  # auto-runs .sql files on first start!
+      - ../sql:/docker-entrypoint-initdb.d
 
 volumes:
   postgres-data:
