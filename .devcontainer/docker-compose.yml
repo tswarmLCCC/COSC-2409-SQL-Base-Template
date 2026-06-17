@@ -1,22 +1,19 @@
-version: '3.8'
-
 services:
-  workspace:
-    image: mcr.microsoft.com/devcontainers/base:ubuntu
+  app:
+    image: mcr.microsoft.com/devcontainers/python:3.12  # or node, universal, etc.
     volumes:
-      - ../..:/workspaces:cached
+      - ..:/workspace:cached
     command: sleep infinity
-    network_mode: service:db
 
   db:
-    image: postgres:15
+    image: postgres:16
+    restart: unless-stopped
     environment:
-      POSTGRES_PASSWORD: password123
-      POSTGRES_USER: postgres
-      POSTGRES_DB: classroom
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mydb
     volumes:
       - postgres-data:/var/lib/postgresql/data
+      - ../sql:/docker-entrypoint-initdb.d  # auto-runs .sql files on first start!
 
 volumes:
   postgres-data:
-  
