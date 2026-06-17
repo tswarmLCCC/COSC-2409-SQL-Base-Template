@@ -4,8 +4,8 @@
   "service": "app",
   "workspaceFolder": "/workspace",
   "forwardPorts": [5432],
-  "postStartCommand": "pg_isready -h db -U postgres || sleep 5",
   "remoteEnv": {
     "DATABASE_URL": "postgresql://postgres:postgres@db:5432/mydb"
-  }
+  },
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y postgresql-client"
 }
