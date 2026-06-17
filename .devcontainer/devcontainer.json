@@ -1,4 +1,4 @@
-json{
+{
   "name": "Postgres Dev",
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
@@ -6,5 +6,6 @@ json{
   "forwardPorts": [5432],
   "remoteEnv": {
     "DATABASE_URL": "postgresql://postgres:postgres@db:5432/mydb"
-  }
+  },
+  "postCreateCommand": "sudo apt-get install -y postgresql-client"
 }
